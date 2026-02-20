@@ -1,0 +1,58 @@
+---
+title: "Connecting an account"
+description: "Connect your social media accounts to Tibbie."
+---
+
+To publish posts, you need to connect at least one social media account to Tibbie.
+
+## Supported platforms
+
+| Platform | Status |
+|---|---|
+| X (Twitter) | Available |
+
+## Connecting via the web app
+
+<Steps>
+  <Step title="Go to Connections">
+    Navigate to the **Connections** page from the sidebar.
+  </Step>
+  <Step title="Select a platform">
+    Click **Connect account** and choose a platform (e.g. X).
+  </Step>
+  <Step title="Authorize Tibbie">
+    You'll be redirected to the platform's authorization page. Grant Tibbie permission to read and write posts on your behalf.
+  </Step>
+  <Step title="Done">
+    After authorizing, you're redirected back to Tibbie. Your account appears in the connections list and is ready for publishing.
+  </Step>
+</Steps>
+
+## Connecting via the CLI or API
+
+You can also connect accounts through the [CLI](/cli/getting-started) or [REST API](/api-reference):
+
+1. Call `POST /connections/connect/{platform}` to get an authorization URL and a state token
+2. Open the authorization URL in a browser and approve access
+3. Poll `GET /connections/connect/{platform}/status/{stateToken}` until the status is `completed`
+
+The authorization URL expires after **10 minutes**.
+
+## Permissions
+
+When you connect an X account, Tibbie requests the following permissions:
+
+- **Read tweets** — to verify publishing success
+- **Write tweets** — to publish posts on your behalf
+- **Upload media** — to attach images and videos
+- **Read profile** — to display your account name and avatar
+- **Offline access** — to refresh tokens automatically
+
+## Account limits
+
+The number of accounts you can connect depends on your plan:
+
+| Plan | Connected accounts |
+|---|---|
+| Starter | 10 |
+| Growth | 20 |

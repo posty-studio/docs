@@ -1,0 +1,41 @@
+---
+title: "Authentication"
+description: "Authenticate with the Tibbie API using Bearer tokens."
+---
+
+The Tibbie API uses Bearer token authentication. Include your API token in the `Authorization` header of every request.
+
+```bash
+curl https://tibbie.co/api/v1/user \
+  -H "Authorization: Bearer sk_YOUR_TOKEN"
+```
+
+## Creating an API token
+
+<Steps>
+  <Step title="Go to Access tokens">
+    Navigate to **Settings** > **Access tokens** in your Tibbie dashboard.
+  </Step>
+  <Step title="Create a token">
+    Click **Create token** and give it a name.
+  </Step>
+  <Step title="Copy the token">
+    Your token is displayed once. Copy it and store it securely — you won't be able to see it again.
+  </Step>
+</Steps>
+
+API tokens are prefixed with `sk_` and have full access to your account. You can create up to **10 API tokens**.
+
+## Revoking a token
+
+Go to **Settings** > **Access tokens** and delete any token you no longer need. Revoked tokens stop working immediately.
+
+## Error responses
+
+If your token is missing or invalid, the API returns a `401 Unauthorized` response:
+
+```json
+{
+  "message": "Unauthenticated."
+}
+```

@@ -1,0 +1,73 @@
+---
+title: "MCP Server"
+description: "Let AI assistants manage your social media through the Model Context Protocol."
+---
+
+Tibbie includes a [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that lets AI assistants create posts, manage connections, and upload media on your behalf.
+
+## Setup
+
+### Claude Code
+
+```bash
+claude mcp add tibbie --transport http https://tibbie.co/mcp -- --header "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Claude Desktop
+
+Add to your Claude Desktop config (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "tibbie": {
+      "url": "https://tibbie.co/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_TOKEN"
+      }
+    }
+  }
+}
+```
+
+Replace `YOUR_API_TOKEN` with an API token from your [Access tokens](https://tibbie.co/settings/tokens) settings page.
+
+## Available tools
+
+### Posts
+
+| Tool | Description |
+|---|---|
+| `list-posts` | List posts with optional filtering by status, connection, and sort order. |
+| `get-post` | Get details of a specific post including platforms, media, and status. |
+| `create-post` | Create a new post. Posts are drafts unless `scheduled_at` is provided. Use `"now"` for immediate publishing. |
+| `update-post` | Update a draft or scheduled post. |
+| `delete-post` | Permanently delete a post and its associated media. |
+| `publish-post` | Publish a draft or scheduled post immediately. |
+
+### Connections
+
+| Tool | Description |
+|---|---|
+| `list-connections` | List connected social media accounts, optionally filtered by provider or status. |
+| `show-connection` | Get details of a specific connected account. |
+| `connect-platform` | Start an OAuth flow to connect a new platform. Returns an authorization URL. |
+| `check-connection-status` | Poll the status of an in-progress OAuth connection flow. |
+| `disconnect-account` | Disconnect a social media account. |
+
+### Media
+
+| Tool | Description |
+|---|---|
+| `upload-media` | Upload media from a URL or get a presigned upload URL. Returns a `media_id` to use with `create-post` or `update-post`. |
+| `confirm-media-upload` | Confirm a file was uploaded via the presigned URL from `upload-media`. |
+
+### Account
+
+| Tool | Description |
+|---|---|
+| `get-current-user` | Get the authenticated user's profile. |
+
+## Authentication
+
+The MCP server uses the same Bearer token authentication as the REST API. Create a token in your [Access tokens](https://tibbie.co/settings/tokens) settings.

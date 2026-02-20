@@ -1,0 +1,43 @@
+---
+title: "Rate limiting"
+description: "Understand API rate limits and how to handle them."
+---
+
+The Tibbie API enforces rate limits to ensure fair usage and platform stability.
+
+## Limits
+
+| Endpoint | Limit |
+|---|---|
+| All endpoints | 60 requests per minute |
+| `POST /media` | 30 requests per minute |
+
+Rate limits are applied per authenticated user. If you're not authenticated, limits are applied per IP address.
+
+## Response headers
+
+Every API response includes headers to help you track your current rate limit usage:
+
+| Header | Description |
+|---|---|
+| `x-ratelimit-limit` | The maximum number of requests allowed per minute. |
+| `x-ratelimit-remaining` | The number of requests remaining in the current window. |
+
+```
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 59
+```
+
+## Handling rate limits
+
+When you exceed a rate limit, the API returns a `429 Too Many Requests` response. Wait for the limit to reset before retrying.
+
+```json
+{
+  "message": "Too Many Attempts."
+}
+```
+
+<Tip>
+  Space out your requests to stay within limits. For bulk operations, add a short delay between requests.
+</Tip>

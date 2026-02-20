@@ -1,0 +1,34 @@
+---
+title: "Reconnecting"
+description: "Fix expired or revoked connections."
+---
+
+Connections can sometimes lose access when tokens expire or are revoked. When this happens, Tibbie marks the account as needing reconnection.
+
+## Why connections need reconnecting
+
+A connection may need reconnecting when:
+
+- **Token expired** — OAuth tokens have a limited lifetime. Tibbie refreshes them automatically, but this can fail if the token has been inactive for too long.
+- **Access revoked** — you revoked Tibbie's access from the platform's settings (e.g. X's "Connected apps" page).
+- **Password changed** — some platforms invalidate OAuth tokens when you change your password.
+
+## How to reconnect
+
+When an account needs reconnecting, you'll see a warning indicator on the **Connections** page.
+
+<Steps>
+  <Step title="Go to Connections">
+    Navigate to the **Connections** page.
+  </Step>
+  <Step title="Click reconnect">
+    Find the account with the warning and click **Reconnect**.
+  </Step>
+  <Step title="Re-authorize">
+    Complete the OAuth flow again to grant Tibbie fresh access.
+  </Step>
+</Steps>
+
+## Impact on scheduled posts
+
+While an account needs reconnecting, any posts targeting that account will fail to publish. Reconnect the account, then retry the failed posts or reschedule them.

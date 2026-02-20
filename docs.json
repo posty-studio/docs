@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "maple",
+  "name": "Tibbie",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#FE5F38",
+    "light": "#FF9278",
+    "dark": "#E84E2A"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -17,52 +17,84 @@
             "group": "Getting started",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "quickstart"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Features",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "features/scheduling",
+              "features/multi-platform",
+              "features/media",
+              "features/calendar",
+              "features/platform-limits"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Connections",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "connections/connecting",
+              "connections/reconnecting",
+              "connections/disconnecting"
+            ]
+          },
+{
+            "group": "MCP Server",
+            "pages": [
+              "mcp/overview"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Billing",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "billing/plans",
+              "billing/usage"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
+        "openapi": "api-reference/openapi.json",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Getting started",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/authentication",
+              "api-reference/rate-limiting"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "User",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "GET /user"
+            ]
+          },
+          {
+            "group": "Connections",
+            "pages": [
+              "POST /connections/connect/{platform}",
+              "GET /connections/connect/{platform}/status/{stateToken}",
+              "GET /connections",
+              "GET /connections/{connection}",
+              "DELETE /connections/{connection}"
+            ]
+          },
+          {
+            "group": "Posts",
+            "pages": [
+              "GET /posts",
+              "POST /posts",
+              "GET /posts/{post}",
+              "PATCH /posts/{post}",
+              "DELETE /posts/{post}",
+              "POST /posts/{post}/publish"
+            ]
+          },
+          {
+            "group": "Media",
+            "pages": [
+              "POST /media"
             ]
           }
         ]
@@ -85,7 +117,8 @@
   },
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "height": 24
   },
   "navbar": {
     "links": [
@@ -112,7 +145,7 @@
      "vscode"
    ]
   },
-  "footer": {
+"footer": {
     "socials": {
       "x": "https://x.com/mintlify",
       "github": "https://github.com/mintlify",

@@ -1,0 +1,38 @@
+---
+title: "Media"
+description: "Attach images, GIFs, and videos to your posts."
+---
+
+Tibbie supports uploading images and videos to include in your posts.
+
+## Supported formats
+
+| Type | Formats |
+|---|---|
+| Images | JPEG, PNG, GIF, WebP |
+| Videos | MP4, MOV |
+
+## Limits
+
+- **Max file size:** 250 MB
+- **Max video duration:** 120 seconds
+
+## Per-platform media limits
+
+Each platform has its own rules for media attachments:
+
+### X (Twitter)
+
+- Up to **4 images** per post, OR
+- **1 GIF** per post, OR
+- **1 video** per post
+
+You cannot mix media types on X. For example, you can't attach 2 images and 1 GIF to the same post.
+
+## Per-platform media
+
+When using [multi-platform publishing](/features/multi-platform), you can attach different media to each platform. This lets you use platform-appropriate dimensions or formats without creating separate posts.
+
+## API and CLI
+
+You can upload media through the [REST API](/api-reference) using the `POST /media` endpoint, or through the [MCP server](/mcp/overview) using the `upload-media` tool. The API supports both direct file uploads and uploading from a URL.
