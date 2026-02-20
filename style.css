@@ -31,3 +31,7 @@
 :root:not(.dark) [data-component-part="step-number"] > div {
   background-color: #f0eee6 !important;
 }
+
+.prose :where(strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+  font-weight: 600 !important;
+}
