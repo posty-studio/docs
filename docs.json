@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "aspen",
+  "theme": "maple",
   "name": "Tibbie",
   "description": "Documentation for Tibbie, a social media scheduling and automation platform. Connect accounts, compose posts, and publish on a schedule.",
   "colors": {
