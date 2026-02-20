@@ -19,8 +19,7 @@
     "body": {
       "family": "GT America",
       "source": "/fonts/gt-america-regular.woff2",
-      "format": "woff2",
-      "weight": 400
+      "format": "woff2"
     }
   },
   "logo": {
