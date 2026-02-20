@@ -35,3 +35,7 @@
 .prose :where(strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
   font-weight: 600 !important;
 }
+
+.font-semibold {
+  font-weight: 600 !important;
+}
