@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "aspen",
   "name": "Tibbie",
   "description": "Documentation for Tibbie, a social media scheduling and automation platform. Connect accounts, compose posts, and publish on a schedule.",
   "colors": {
@@ -9,6 +9,20 @@
     "dark": "#E84E2A"
   },
   "favicon": "/favicon.svg",
+  "fonts": {
+    "heading": {
+      "family": "GT America",
+      "source": "/fonts/gt-america-medium.woff2",
+      "format": "woff2",
+      "weight": 600
+    },
+    "body": {
+      "family": "GT America",
+      "source": "/fonts/gt-america-regular.woff2",
+      "format": "woff2",
+      "weight": 400
+    }
+  },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
@@ -42,6 +56,12 @@
               "connections/connecting",
               "connections/reconnecting",
               "connections/disconnecting"
+            ]
+          },
+          {
+            "group": "CLI",
+            "pages": [
+              "cli/getting-started"
             ]
           },
           {
