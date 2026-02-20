@@ -7,11 +7,7 @@
 :root:not(.dark) #navbar .bg-background-light,
 :root:not(.dark) #sidebar,
 :root:not(.dark) #sidebar > ul.bg-background-light {
-  background-color: #f0eee6 !important;
-}
-
-[data-component-part="step-title"] {
-  font-weight: 600 !important;
+  background-color: oklch(97.9% .00411 91.4) !important;
 }
 
 .card {
@@ -29,13 +25,5 @@
 }
 
 :root:not(.dark) [data-component-part="step-number"] > div {
-  background-color: #f0eee6 !important;
-}
-
-.prose :where(strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
-  font-weight: 600 !important;
-}
-
-.font-semibold {
-  font-weight: 600 !important;
+  background-color: oklch(97.9% .00411 91.4) !important;
 }
