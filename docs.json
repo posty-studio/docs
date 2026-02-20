@@ -2,12 +2,32 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
   "name": "Tibbie",
+  "description": "Documentation for Tibbie, a social media scheduling and automation platform. Connect accounts, compose posts, and publish on a schedule.",
   "colors": {
     "primary": "#FE5F38",
     "light": "#FF9278",
     "dark": "#E84E2A"
   },
   "favicon": "/favicon.svg",
+  "fonts": {
+    "heading": {
+      "family": "GT America",
+      "source": "/fonts/gt-america-medium.woff2",
+      "format": "woff2",
+      "weight": 600
+    },
+    "body": {
+      "family": "GT America",
+      "source": "/fonts/gt-america-regular.woff2",
+      "format": "woff2",
+      "weight": 400
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "height": 24
+  },
   "navigation": {
     "tabs": [
       {
@@ -38,7 +58,13 @@
               "connections/disconnecting"
             ]
           },
-{
+          {
+            "group": "CLI",
+            "pages": [
+              "cli/getting-started"
+            ]
+          },
+          {
             "group": "MCP Server",
             "pages": [
               "mcp/overview"
@@ -104,52 +130,69 @@
       "anchors": [
         {
           "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "href": "https://tibbie.co/docs",
           "icon": "book-open-cover"
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://tibbie.co/blog",
           "icon": "newspaper"
         }
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg",
-    "height": 24
-  },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:hi@tibbie.co"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://tibbie.co/posts"
     }
+  },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["bash", "python", "javascript", "node"]
+    }
+  },
+  "search": {
+    "prompt": "Search Tibbie docs..."
+  },
+  "seo": {
+    "indexing": "navigable"
+  },
+  "metadata": {
+    "timestamp": true
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
-"footer": {
+  "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/danielpost"
+    }
+  },
+  "errors": {
+    "404": {
+      "redirect": false,
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist. [Back to docs](/)"
     }
   }
 }
