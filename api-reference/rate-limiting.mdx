@@ -30,7 +30,9 @@ x-ratelimit-remaining: 59
 
 ## Handling rate limits
 
-When you exceed a rate limit, the API returns a `429 Too Many Requests` response. Wait for the limit to reset before retrying.
+When you exceed a rate limit, the API returns a `429 Too Many Requests` response.
+
+### Response
 
 ```json
 {
@@ -38,6 +40,66 @@ When you exceed a rate limit, the API returns a `429 Too Many Requests` response
 }
 ```
 
-<Tip>
-  Space out your requests to stay within limits. For bulk operations, add a short delay between requests.
-</Tip>
+Check the `x-ratelimit-reset` header for when the limit resets, or simply wait and retry.
+
+### Exponential backoff
+
+Use exponential backoff to handle rate limits gracefully:
+
+```python
+import time
+import requests
+
+def make_request(url, headers, max_retries=3):
+    for attempt in range(max_retries):
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 429:
+            # Check for reset header, default to increasing delay
+            wait_time = 2 ** attempt
+            time.sleep(wait_time)
+            continue
+            
+        return response
+    
+    raise Exception("Max retries exceeded")
+```
+
+```javascript
+async function makeRequest(url, headers, maxRetries = 3) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    const response = await fetch(url, { headers });
+    
+    if (response.status === 429) {
+      const waitTime = Math.pow(2, attempt) * 1000;
+      await new Promise(r => setTimeout(r, waitTime));
+      continue;
+    }
+    
+    return response;
+  }
+  throw new Error('Max retries exceeded');
+}
+```
+
+```bash
+# In shell scripts, use a simple loop with sleep
+for i in 1 2 3; do
+  response=$(curl -s -o /dev/null -w "%{http_code}" \
+    -H "Authorization: Bearer $TOKEN" \
+    https://tibbie.co/api/v1/posts)
+  
+  if [ "$response" -eq 200 ]; then
+    break
+  fi
+  
+  sleep $i  # 1s, 2s, 3s
+done
+```
+
+### Best practices
+
+- **Space out requests** — Don't batch too many at once
+- **Cache responses** — Reuse data when possible
+- **Monitor headers** — Check `x-ratelimit-remaining` proactively
+- **Queue requests** — For bulk operations, use a job queue with delays

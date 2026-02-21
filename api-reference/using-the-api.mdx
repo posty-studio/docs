@@ -1,0 +1,200 @@
+---
+title: "Using the API"
+description: "A practical guide to the Tibbie REST API."
+---
+
+This guide covers the most common API workflows. For the full reference, see the [OpenAPI spec](/api-reference/openapi.json).
+
+## Authentication
+
+All API requests require a Bearer token:
+
+```bash
+curl https://tibbie.co/api/v1/user \
+  -H "Authorization: Bearer sk_YOUR_TOKEN"
+```
+
+```python
+import requests
+
+headers = {
+    "Authorization": "Bearer sk_YOUR_TOKEN"
+}
+
+response = requests.get(
+    "https://tibbie.co/api/v1/user",
+    headers=headers
+)
+```
+
+```javascript
+const response = await fetch('https://tibbie.co/api/v1/user', {
+  headers: {
+    'Authorization': 'Bearer sk_YOUR_TOKEN'
+  }
+});
+```
+
+## Common Flows
+
+### 1. List your connected accounts
+
+```bash
+curl https://tibbie.co/api/v1/connections \
+  -H "Authorization: Bearer sk_YOUR_TOKEN"
+```
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "id": "conn_abc123",
+      "provider": "x",
+      "provider_username": "yourhandle",
+      "status": "active"
+    }
+  ]
+}
+```
+
+### 2. Create and publish a post
+
+```bash
+curl -X POST https://tibbie.co/api/v1/posts \
+  -H "Authorization: Bearer sk_YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Hello world!",
+    "platforms": [
+      {"connection_id": "conn_abc123", "action": "publish"}
+    ]
+  }'
+```
+
+### 3. Schedule a post for later
+
+```bash
+curl -X POST https://tibbie.co/api/v1/posts \
+  -H "Authorization: Bearer sk_YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Scheduled post",
+    "scheduled_at": "2026-02-25T14:00:00Z",
+    "platforms": [
+      {"connection_id": "conn_abc123"}
+    ]
+  }'
+```
+
+Use ISO 8601 format with UTC timezone.
+
+### 4. Upload media and attach to a post
+
+First, get an upload URL:
+
+```bash
+curl -X POST https://tibbie.co/api/v1/media/upload \
+  -H "Authorization: Bearer sk_YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "source_url": "https://yoursite.com/image.jpg"
+  }'
+```
+
+Response:
+
+```json
+{
+  "data": {
+    "media_id": "med_xyz789",
+    "upload_url": "https://storage.tibbie.co/upload/...",
+    "fields": {...}
+  }
+}
+```
+
+Upload the file to the `upload_url`, then create the post with `media_ids`:
+
+```bash
+curl -X POST https://tibbie.co/api/v1/posts \
+  -H "Authorization: Bearer sk_YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Check out this image!",
+    "media_ids": ["med_xyz789"],
+    "platforms": [
+      {"connection_id": "conn_abc123", "action": "publish"}
+    ]
+  }'
+```
+
+### 5. Connect a new platform via OAuth
+
+```bash
+curl -X POST https://tibbie.co/api/v1/connections \
+  -H "Authorization: Bearer sk_YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"provider": "linkedin"}'
+```
+
+Response:
+
+```json
+{
+  "data": {
+    "authorization_url": "https://...",
+    "state_token": "abc123"
+  }
+}
+```
+
+Redirect the user to `authorization_url`. After they complete OAuth, poll for status:
+
+```bash
+curl https://tibbie.co/api/v1/connections/status \
+  -H "Authorization: Bearer sk_YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"provider": "linkedin", "state_token": "abc123"}'
+```
+
+When status is `completed`, the account is connected.
+
+### 6. Handle rate limits
+
+If you get a 429 response:
+
+```python
+import time
+
+max_retries = 3
+for attempt in range(max_retries):
+    response = requests.get(url, headers=headers)
+    if response.status_code == 429:
+        wait = 2 ** attempt  # exponential backoff
+        time.sleep(wait)
+        continue
+    break
+```
+
+## Error Codes
+
+| Code | Meaning | Fix |
+|------|---------|-----|
+| 401 | Invalid token | Check your Bearer token |
+| 403 | Forbidden | Your plan may not include this feature |
+| 404 | Not found | Check the resource ID exists |
+| 422 | Validation error | Check request body format |
+| 429 | Rate limited | Wait and retry with backoff |
+
+Example 422 response:
+
+```json
+{
+  "message": "Validation failed",
+  "errors": {
+    "content": ["The content field is required."]
+  }
+}
+```
