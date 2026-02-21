@@ -5,6 +5,12 @@ description: "Let AI assistants manage your social media through the Model Conte
 
 Tibbie includes a [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that lets AI assistants create posts, manage connections, and upload media on your behalf.
 
+## Why MCP?
+
+Unlike traditional APIs that require you to write code, MCP lets you simply **tell an AI what you want** — and it handles the API calls for you.
+
+> **Example:** Instead of reading API docs and writing curl commands, you can just say: *"Hey Claude, post this article to my X account tomorrow at 9am."*
+
 ## Setup
 
 ### Claude Code
@@ -31,6 +37,46 @@ Add to your Claude Desktop config (`claude_desktop_config.json`):
 ```
 
 Replace `YOUR_API_TOKEN` with an API token from your [Access tokens](https://tibbie.co/settings/tokens) settings page.
+
+### Other AI Assistants
+
+MCP is a standard protocol. Any AI assistant that supports MCP can connect to Tibbie:
+
+- **Cursor** — Add to settings > MCP servers
+- **Windsurf** — Similar setup to Claude Code
+- **OpenAI SDK** — Use the MCP HTTPS transport
+
+## Your first AI-powered post
+
+Once connected, here's how a typical conversation works:
+
+```
+You: Hey, can you post this to X? https://example.com/my-new-blog-post
+
+AI: Let me first check which accounts you have connected, then create and publish the post.
+
+[AI calls list-connections to see your connected accounts]
+
+AI: I see you have @yourhandle connected on X. Let me:
+1. Upload the featured image
+2. Create a draft post
+3. Publish it now
+
+[AI calls upload-media, create-post, then publish-post]
+
+Done! Your post is now live on X: https://x.com/yourhandle/status/123456789
+```
+
+### What the AI knows
+
+When you connect Tibbie via MCP, the AI can see:
+
+- **Your connected accounts** — Which platforms and handles are linked
+- **Your posts** — All drafts, scheduled, and published posts
+- **Media library** — Previously uploaded images and videos
+- **Account limits** — How many posts you have remaining this billing cycle
+
+The AI **cannot** see your platform passwords or OAuth tokens — those stay secure on Tibbie's servers.
 
 ## Available tools
 
@@ -67,6 +113,67 @@ Replace `YOUR_API_TOKEN` with an API token from your [Access tokens](https://tib
 | Tool | Description |
 |---|---|
 | `get-current-user` | Get the authenticated user's profile. |
+
+## Example prompts
+
+Here are some things you can ask your AI assistant:
+
+### Create and publish immediately
+> "Post this link to LinkedIn and X: https://yoursite.com/blog/post"
+
+### Schedule for later
+> "Schedule this image to Instagram tomorrow at 6pm"
+
+### Check what's scheduled
+> "What posts do I have scheduled for this week?"
+
+### Connect a new account
+> "Connect my Threads account so I can post from there too"
+
+The AI will:
+1. Call `connect-platform` to start the OAuth flow
+2. Give you a URL to complete authorization in your browser
+3. Poll with `check-connection-status` until you finish
+4. Confirm when the account is connected
+
+### Get analytics
+> "How many posts have I published this month?"
+
+## Troubleshooting
+
+### "Connection refused"
+
+The Tibbie MCP server might be down. Check [status.tibbie.co](https://status.tibbie.co) or try again in a few minutes.
+
+### "Unauthorized" errors
+
+Your API token may have expired or been revoked. Generate a new token at [tibbie.co/settings/tokens](https://tibbie.co/settings/tokens) and update your MCP configuration.
+
+### AI doesn't see my connected accounts
+
+Make sure you've connected at least one account in the Tibbie dashboard first. The AI can only see accounts that are already linked.
+
+## Connecting new accounts via MCP
+
+The AI **can** help you connect new accounts — but OAuth requires browser interaction, so it's a team effort:
+
+```
+You: Connect my Instagram account
+
+AI: I'll start the OAuth flow. Please open this URL in your browser:
+https://tibbie.co/oauth/instagram/authorize?...
+
+Once you've authorized Instagram, let me know and I'll verify the connection is complete.
+[AI calls check-connection-status]
+
+AI: ✅ Your Instagram account (@yourhandle) is now connected! You can now post to Instagram via Tibbie.
+```
+
+The workflow:
+1. **AI calls `connect-platform`** — Starts OAuth, gets authorization URL
+2. **You complete OAuth** — Open the URL in a browser, authorize the app
+3. **AI polls `check-connection-status`** — Waits for completion
+4. **Confirmed** — AI verifies the new connection is active
 
 ## Authentication
 
