@@ -130,6 +130,12 @@ Here are some things you can ask your AI assistant:
 ### Connect a new account
 > "Connect my Threads account so I can post from there too"
 
+The AI will:
+1. Call `connect-platform` to start the OAuth flow
+2. Give you a URL to complete authorization in your browser
+3. Poll with `check-connection-status` until you finish
+4. Confirm when the account is connected
+
 ### Get analytics
 > "How many posts have I published this month?"
 
@@ -145,7 +151,29 @@ Your API token may have expired or been revoked. Generate a new token at [tibbie
 
 ### AI doesn't see my connected accounts
 
-Make sure you've connected at least one account in the Tibbie dashboard first. The AI can only see accounts that are already linked — it can't create new connections without your intervention (OAuth requires browser authentication).
+Make sure you've connected at least one account in the Tibbie dashboard first. The AI can only see accounts that are already linked.
+
+## Connecting new accounts via MCP
+
+The AI **can** help you connect new accounts — but OAuth requires browser interaction, so it's a team effort:
+
+```
+You: Connect my Instagram account
+
+AI: I'll start the OAuth flow. Please open this URL in your browser:
+https://tibbie.co/oauth/instagram/authorize?...
+
+Once you've authorized Instagram, let me know and I'll verify the connection is complete.
+[AI calls check-connection-status]
+
+AI: ✅ Your Instagram account (@yourhandle) is now connected! You can now post to Instagram via Tibbie.
+```
+
+The workflow:
+1. **AI calls `connect-platform`** — Starts OAuth, gets authorization URL
+2. **You complete OAuth** — Open the URL in a browser, authorize the app
+3. **AI polls `check-connection-status`** — Waits for completion
+4. **Confirmed** — AI verifies the new connection is active
 
 ## Authentication
 
