@@ -87,6 +87,7 @@
             "group": "Getting started",
             "pages": [
               "api-reference/authentication",
+              "api-reference/using-the-api",
               "api-reference/rate-limiting"
             ]
           },
